@@ -9,6 +9,8 @@ import ProductCard from "@/components/ProductCard";
 import CategoryCarousel from "@/components/CategoryCarousel";
 import TestimonialSection from "@/components/TestimonialSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
+import BrandCarousel from "@/components/BrandCarousel";
+import FloatingChat from "@/components/FloatingChat";
 import { Link } from "react-router-dom";
 import heroImage1 from "@/assets/hero-image.jpg";
 import heroImage2 from "@/assets/hero-image-2.jpg";
@@ -254,6 +256,9 @@ const Home = () => {
       {/* Category Carousel */}
       <CategoryCarousel />
 
+      {/* Brands Section */}
+      <BrandCarousel />
+
       {/* Flash Sales / Top Deals */}
       <section className="py-16 bg-gradient-soft">
         <div className="container">
@@ -360,6 +365,7 @@ const Home = () => {
       </section>
 
       <Footer />
+      <FloatingChat />
     </div>
   );
 };
