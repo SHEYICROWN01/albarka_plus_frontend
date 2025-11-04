@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, ShoppingCart, Heart, Share2, Check } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Heart, Share2, Check, Calendar, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ProductImageGallery from "@/components/ProductImageGallery";
 import { Link } from "react-router-dom";
 import productPhone from "@/assets/product-phone.jpg";
 
@@ -16,7 +17,8 @@ const ProductDetail = () => {
 
   const product = {
     id: "1",
-    image: productPhone,
+    images: [productPhone, productPhone, productPhone],
+    videoUrl: undefined,
     brand: "Samsung",
     title: "Samsung Galaxy A54 5G",
     price: 285000,
@@ -55,21 +57,14 @@ const ProductDetail = () => {
           </Link>
 
           <div className="grid lg:grid-cols-2 gap-12">
-            {/* Product Image */}
+            {/* Product Image Gallery */}
             <div>
               <div className="sticky top-24">
-                <div className="relative rounded-2xl overflow-hidden bg-soft-blue shadow-card">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-[500px] object-cover"
-                  />
-                  {product.inStock && (
-                    <Badge className="absolute top-4 left-4 bg-accent text-accent-foreground">
-                      In Stock
-                    </Badge>
-                  )}
-                </div>
+                <ProductImageGallery 
+                  images={product.images} 
+                  title={product.title}
+                  videoUrl={product.videoUrl}
+                />
               </div>
             </div>
 
@@ -138,22 +133,47 @@ const ProductDetail = () => {
                   </RadioGroup>
 
                   {selectedPlanDetails && (
-                    <div className="mt-6 p-4 rounded-lg bg-background">
-                      <h4 className="font-semibold mb-3">Payment Summary</h4>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Daily Payment:</span>
-                          <span className="font-semibold">₦{selectedPlanDetails.daily.toLocaleString()}</span>
+                    <div className="mt-6 space-y-4">
+                      <div className="p-4 rounded-lg bg-background">
+                        <h4 className="font-semibold mb-3 flex items-center gap-2">
+                          <Calendar className="h-4 w-4 text-primary" />
+                          Payment Summary
+                        </h4>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Daily Payment:</span>
+                            <span className="font-semibold">₦{selectedPlanDetails.daily.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Duration:</span>
+                            <span className="font-semibold">{selectedPlanDetails.days} days</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Start Date:</span>
+                            <span className="font-semibold">
+                              {new Date().toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            </span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">End Date:</span>
+                            <span className="font-semibold">
+                              {new Date(Date.now() + parseInt(selectedPlanDetails.days) * 24 * 60 * 60 * 1000).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            </span>
+                          </div>
+                          <Separator className="my-2" />
+                          <div className="flex justify-between">
+                            <span className="font-semibold">Total Amount:</span>
+                            <span className="text-lg font-bold text-primary">₦{selectedPlanDetails.total.toLocaleString()}</span>
+                          </div>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Duration:</span>
-                          <span className="font-semibold">{selectedPlanDetails.days} days</span>
-                        </div>
-                        <Separator className="my-2" />
-                        <div className="flex justify-between">
-                          <span className="font-semibold">Total Amount:</span>
-                          <span className="text-lg font-bold text-primary">₦{selectedPlanDetails.total.toLocaleString()}</span>
-                        </div>
+                      </div>
+
+                      {/* Savings Indicator */}
+                      <div className="p-3 rounded-lg bg-accent/10 border border-accent/20 flex items-center gap-2">
+                        <TrendingDown className="h-4 w-4 text-accent" />
+                        <p className="text-sm text-accent-foreground">
+                          <span className="font-semibold">You save ₦5,000</span> compared to market average
+                        </p>
                       </div>
                     </div>
                   )}

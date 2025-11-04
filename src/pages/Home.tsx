@@ -1,9 +1,15 @@
-import { ArrowRight, ShoppingBag, PiggyBank, Home as HomeIcon, CheckCircle, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, ShoppingBag, PiggyBank, Home as HomeIcon, CheckCircle, TrendingUp, Users, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
+import CategoryCarousel from "@/components/CategoryCarousel";
+import TestimonialSection from "@/components/TestimonialSection";
+import HowItWorksSection from "@/components/HowItWorksSection";
+import ScrollToTop from "@/components/ScrollToTop";
+import FloatingChat from "@/components/FloatingChat";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-image.jpg";
 import productPhone from "@/assets/product-phone.jpg";
@@ -14,30 +20,36 @@ const Home = () => {
   const featuredProducts = [
     {
       id: "1",
-      image: productPhone,
+      images: [productPhone, productPhone, productPhone],
       brand: "Samsung",
       title: "Samsung Galaxy A54 5G - 128GB",
       price: 285000,
       installment: "₦9,500/day for 30 days",
       category: "Phones",
+      hasVideo: true,
+      badges: ["popular", "new"] as Array<"popular" | "new" | "best-value" | "low-stock">,
     },
     {
       id: "2",
-      image: productTv,
+      images: [productTv, productTv],
       brand: "LG",
       title: "LG 55\" 4K Smart TV",
       price: 450000,
       installment: "₦15,000/day for 30 days",
       category: "Electronics",
+      hasVideo: false,
+      badges: ["best-value"] as Array<"popular" | "new" | "best-value" | "low-stock">,
     },
     {
       id: "3",
-      image: productLaptop,
+      images: [productLaptop, productLaptop, productLaptop],
       brand: "HP",
       title: "HP Pavilion 15 Laptop - Intel Core i5",
       price: 520000,
       installment: "₦17,333/day for 30 days",
       category: "Computers",
+      hasVideo: true,
+      badges: ["popular"] as Array<"popular" | "new" | "best-value" | "low-stock">,
     },
   ];
 
@@ -81,15 +93,24 @@ const Home = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      {/* Hero Section */}
+      {/* Hero Section with Parallax */}
       <section className="relative bg-gradient-hero text-primary-foreground py-20 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-20"></div>
+        <div 
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `url(${heroImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+          }}
+        />
         
-        <div className="container relative">
+        <div className="container relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left space-y-6">
+            <div className="text-center lg:text-left space-y-6 animate-fade-in">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight">
-                Smart Savings.<br />Smart Ownership.
+                Smart Savings.<br />
+                <span className="text-secondary">Smart Ownership.</span>
               </h1>
               <p className="text-lg md:text-xl text-primary-foreground/90 max-w-2xl">
                 Turn your daily savings into ownership. Buy the items you need on credit and repay through your existing savings schedule.
@@ -97,20 +118,20 @@ const Home = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link to="/catalog">
                   <Button variant="hero" size="lg" className="group">
-                    Browse Items
+                    Start Owning Smartly
                     <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </Link>
-                <Link to="/how-it-works">
+                <a href="#how-it-works">
                   <Button variant="outline" size="lg" className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20">
                     How It Works
                   </Button>
-                </Link>
+                </a>
               </div>
             </div>
 
-            <div className="relative hidden lg:block">
-              <div className="relative rounded-2xl overflow-hidden shadow-glow">
+            <div className="relative hidden lg:block animate-fade-in">
+              <div className="relative rounded-2xl overflow-hidden shadow-glow transform transition-transform hover:scale-105 duration-500">
                 <img
                   src={heroImage}
                   alt="Happy customer with smartphone"
@@ -133,34 +154,39 @@ const Home = () => {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-16 lg:py-24 bg-gradient-soft">
+      {/* Category Carousel */}
+      <CategoryCarousel />
+
+      {/* Flash Sales / Top Deals */}
+      <section className="py-16 bg-gradient-soft">
         <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">How Albarka+ Works</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Three simple steps to turn your savings into ownership
-            </p>
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center">
+                <Flame className="h-6 w-6 text-white animate-pulse" />
+              </div>
+              <div>
+                <h2 className="text-3xl font-heading font-bold">Top Deals Today</h2>
+                <p className="text-muted-foreground">Limited stock available</p>
+              </div>
+            </div>
+            <Badge className="bg-destructive text-destructive-foreground text-lg px-4 py-2">
+              Ends in 23:45:12
+            </Badge>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {steps.map((step, index) => (
-              <Card key={index} className="relative border-2 hover:shadow-card transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 h-8 w-8 rounded-full bg-accent flex items-center justify-center font-bold text-accent-foreground">
-                    {index + 1}
-                  </div>
-                  <div className="h-16 w-16 rounded-full bg-soft-blue flex items-center justify-center mx-auto mb-4 mt-4">
-                    <step.icon className="h-8 w-8 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-heading font-semibold mb-2">{step.title}</h3>
-                  <p className="text-muted-foreground">{step.description}</p>
-                </CardContent>
-              </Card>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} {...product} />
             ))}
           </div>
         </div>
       </section>
+
+      {/* How It Works */}
+      <div id="how-it-works">
+        <HowItWorksSection />
+      </div>
 
       {/* Featured Products */}
       <section className="py-16 lg:py-24">
@@ -185,6 +211,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Testimonials */}
+      <TestimonialSection />
 
       {/* Benefits Section */}
       <section className="py-16 lg:py-24 bg-soft-blue">
@@ -234,6 +263,8 @@ const Home = () => {
       </section>
 
       <Footer />
+      <ScrollToTop />
+      <FloatingChat />
     </div>
   );
 };
