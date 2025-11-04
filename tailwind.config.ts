@@ -78,6 +78,11 @@ export default {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.5s ease-out',
         'scroll': 'scroll 30s linear infinite',
+        'slide-in-right': 'slideInRight 0.3s ease-out',
+        'slide-in-bottom': 'slideInBottom 0.3s ease-out',
+        'scale-in': 'scaleIn 0.2s ease-out',
+        'float-to-cart': 'floatToCart 0.6s ease-in-out',
+        'badge-pop': 'badgePop 0.3s ease-out',
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
@@ -93,6 +98,28 @@ export default {
         scroll: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
+        },
+        slideInRight: {
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        slideInBottom: {
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        scaleIn: {
+          '0%': { transform: 'scale(0.95)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        floatToCart: {
+          '0%': { transform: 'translate(0, 0) scale(1)', opacity: '1' },
+          '50%': { transform: 'translate(200px, -100px) scale(0.5)', opacity: '0.8' },
+          '100%': { transform: 'translate(400px, -200px) scale(0)', opacity: '0' },
+        },
+        badgePop: {
+          '0%': { transform: 'scale(0.8)' },
+          '50%': { transform: 'scale(1.2)' },
+          '100%': { transform: 'scale(1)' },
         },
         "accordion-down": {
           from: { height: "0" },

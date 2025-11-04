@@ -26,37 +26,38 @@ const CartSidebar = ({ open, onOpenChange, items, onUpdateQuantity, onRemoveItem
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-lg bg-background/95 backdrop-blur-xl border-l shadow-2xl">
+      <SheetContent className="w-full sm:max-w-lg bg-background/95 backdrop-blur-xl border-l border-border/50 shadow-elegant animate-slide-in-right md:animate-slide-in-right sm:animate-slide-in-bottom">
         <SheetHeader className="space-y-4">
-          <SheetTitle className="flex items-center gap-2 text-2xl">
+          <SheetTitle className="flex items-center gap-2 text-2xl font-heading">
             <ShoppingBag className="h-6 w-6 text-primary" />
             Your Cart 🛍️
           </SheetTitle>
-          <Separator />
+          <Separator className="bg-border/50" />
         </SheetHeader>
 
         <div className="flex flex-col h-full py-6">
           {/* Cart Items */}
-          <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+          <div className="flex-1 overflow-y-auto space-y-4 pr-2 scrollbar-thin">
             {items.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full text-center py-12">
+              <div className="flex flex-col items-center justify-center h-full text-center py-12 animate-fade-in">
                 <ShoppingBag className="h-16 w-16 text-muted-foreground/30 mb-4" />
                 <p className="text-lg font-medium text-muted-foreground">Your cart is empty</p>
                 <p className="text-sm text-muted-foreground mt-2">Add some products to get started!</p>
               </div>
             ) : (
-              items.map((item) => (
+              items.map((item, index) => (
                 <div
                   key={item.id}
-                  className="group relative rounded-2xl p-4 transition-all duration-300 hover:bg-accent/50 border border-transparent hover:border-primary/20 hover:shadow-card"
+                  className="group relative rounded-2xl p-4 transition-all duration-300 hover:bg-accent/10 border border-transparent hover:border-primary/20 hover:shadow-card animate-scale-in"
+                  style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   <div className="flex gap-4">
                     {/* Product Image */}
-                    <div className="relative h-20 w-20 rounded-xl overflow-hidden bg-soft-blue flex-shrink-0">
+                    <div className="relative h-20 w-20 rounded-xl overflow-hidden bg-soft-blue flex-shrink-0 shadow-sm">
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                       />
                     </div>
 
@@ -73,7 +74,7 @@ const CartSidebar = ({ open, onOpenChange, items, onUpdateQuantity, onRemoveItem
                           variant="ghost"
                           size="icon"
                           onClick={() => onRemoveItem(item.id)}
-                          className="h-8 w-8 -mt-1 -mr-2 opacity-0 group-hover:opacity-100 transition-opacity hover:text-destructive"
+                          className="h-8 w-8 -mt-1 -mr-2 opacity-0 group-hover:opacity-100 transition-all duration-200 hover:text-destructive hover:bg-destructive/10"
                         >
                           <X className="h-4 w-4" />
                         </Button>
@@ -93,16 +94,16 @@ const CartSidebar = ({ open, onOpenChange, items, onUpdateQuantity, onRemoveItem
                             variant="outline"
                             size="icon"
                             onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                            className="h-8 w-8 rounded-lg"
+                            className="h-8 w-8 rounded-lg border-primary/20 hover:bg-primary hover:text-primary-foreground transition-all"
                           >
                             <Minus className="h-3 w-3" />
                           </Button>
-                          <span className="w-12 text-center font-semibold">{item.quantity}</span>
+                          <span className="w-12 text-center font-semibold text-base">{item.quantity}</span>
                           <Button
                             variant="outline"
                             size="icon"
                             onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                            className="h-8 w-8 rounded-lg"
+                            className="h-8 w-8 rounded-lg border-primary/20 hover:bg-primary hover:text-primary-foreground transition-all"
                           >
                             <Plus className="h-3 w-3" />
                           </Button>
@@ -117,21 +118,21 @@ const CartSidebar = ({ open, onOpenChange, items, onUpdateQuantity, onRemoveItem
 
           {/* Bottom Section - Subtotal & Actions */}
           {items.length > 0 && (
-            <div className="border-t pt-6 mt-6 space-y-4">
-              <div className="flex items-center justify-between text-lg">
-                <span className="font-medium">Subtotal</span>
+            <div className="border-t border-border/50 pt-6 mt-6 space-y-4 animate-fade-in">
+              <div className="flex items-center justify-between text-lg bg-soft-blue rounded-xl p-4">
+                <span className="font-medium text-foreground">Subtotal</span>
                 <span className="font-bold text-2xl text-primary">
                   ₦{subtotal.toLocaleString()}
                 </span>
               </div>
 
               <div className="space-y-3">
-                <Button className="w-full h-12 text-base" variant="hero">
+                <Button className="w-full h-12 text-base shadow-card hover:shadow-elegant transition-all" variant="hero">
                   Proceed to Checkout
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full h-12 text-base"
+                  className="w-full h-12 text-base border-primary/30 hover:bg-primary/5"
                   onClick={() => onOpenChange(false)}
                 >
                   Continue Shopping
