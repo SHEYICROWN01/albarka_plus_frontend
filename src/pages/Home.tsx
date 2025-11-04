@@ -263,8 +263,6 @@ const Home = () => {
       </section>
 
       <Footer />
-      <ScrollToTop />
-      <FloatingChat />
     </div>
   );
 };
