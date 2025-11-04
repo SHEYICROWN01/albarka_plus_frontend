@@ -1,4 +1,5 @@
-import { ArrowRight, ShoppingBag, PiggyBank, Home as HomeIcon, CheckCircle, TrendingUp, Users, Flame } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowRight, ShoppingBag, PiggyBank, Home as HomeIcon, CheckCircle, TrendingUp, Users, Flame, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,15 +9,60 @@ import ProductCard from "@/components/ProductCard";
 import CategoryCarousel from "@/components/CategoryCarousel";
 import TestimonialSection from "@/components/TestimonialSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
-import ScrollToTop from "@/components/ScrollToTop";
-import FloatingChat from "@/components/FloatingChat";
 import { Link } from "react-router-dom";
-import heroImage from "@/assets/hero-image.jpg";
+import heroImage1 from "@/assets/hero-image.jpg";
+import heroImage2 from "@/assets/hero-image-2.jpg";
+import heroImage3 from "@/assets/hero-image-3.jpg";
+import heroImage4 from "@/assets/hero-image-4.jpg";
 import productPhone from "@/assets/product-phone.jpg";
 import productTv from "@/assets/product-tv.jpg";
 import productLaptop from "@/assets/product-laptop.jpg";
 
 const Home = () => {
+  const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+
+  const heroImages = [
+    {
+      image: heroImage1,
+      title: "Smart Savings.",
+      subtitle: "Smart Ownership.",
+      description: "Turn your daily savings into ownership. Buy the items you need on credit and repay through your existing savings schedule.",
+    },
+    {
+      image: heroImage2,
+      title: "Own Your Dream Laptop.",
+      subtitle: "Pay Daily.",
+      description: "Get the technology you need for work or school. Make affordable daily payments that fit your budget.",
+    },
+    {
+      image: heroImage3,
+      title: "Shop Smart.",
+      subtitle: "Save Smart.",
+      description: "Access quality products from trusted brands. Build your credit history while you own what you need.",
+    },
+    {
+      image: heroImage4,
+      title: "Family Entertainment.",
+      subtitle: "Affordable Plans.",
+      description: "Bring joy to your home with the latest electronics. Flexible payment options for every family.",
+    },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
+  const nextSlide = () => {
+    setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentHeroIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+  };
   const featuredProducts = [
     {
       id: "1",
@@ -93,28 +139,33 @@ const Home = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      {/* Hero Section with Parallax */}
+      {/* Hero Section with Carousel */}
       <section className="relative bg-gradient-hero text-primary-foreground py-20 lg:py-32 overflow-hidden">
+        {/* Animated Background */}
         <div 
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 transition-all duration-1000 ease-in-out"
           style={{
-            backgroundImage: `url(${heroImage})`,
+            backgroundImage: `url(${heroImages[currentHeroIndex].image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',
+            opacity: 0.15,
           }}
         />
         
         <div className="container relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left space-y-6 animate-fade-in">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight">
-                Smart Savings.<br />
-                <span className="text-secondary">Smart Ownership.</span>
-              </h1>
-              <p className="text-lg md:text-xl text-primary-foreground/90 max-w-2xl">
-                Turn your daily savings into ownership. Buy the items you need on credit and repay through your existing savings schedule.
-              </p>
+            {/* Left Content */}
+            <div className="text-center lg:text-left space-y-6">
+              <div className="animate-fade-in" key={currentHeroIndex}>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight mb-2">
+                  {heroImages[currentHeroIndex].title}<br />
+                  <span className="text-secondary">{heroImages[currentHeroIndex].subtitle}</span>
+                </h1>
+                <p className="text-lg md:text-xl text-primary-foreground/90 max-w-2xl mb-6">
+                  {heroImages[currentHeroIndex].description}
+                </p>
+              </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link to="/catalog">
                   <Button variant="hero" size="lg" className="group">
@@ -130,15 +181,61 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="relative hidden lg:block animate-fade-in">
-              <div className="relative rounded-2xl overflow-hidden shadow-glow transform transition-transform hover:scale-105 duration-500">
-                <img
-                  src={heroImage}
-                  alt="Happy customer with smartphone"
-                  className="w-full h-[500px] object-cover"
-                />
+            {/* Right Carousel */}
+            <div className="relative">
+              {/* Main Image with Transition */}
+              <div className="relative rounded-2xl overflow-hidden shadow-glow">
+                <div className="relative h-[500px]">
+                  {heroImages.map((hero, index) => (
+                    <img
+                      key={index}
+                      src={hero.image}
+                      alt={`${hero.title} ${hero.subtitle}`}
+                      className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out ${
+                        index === currentHeroIndex 
+                          ? 'opacity-100 scale-100' 
+                          : 'opacity-0 scale-105'
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                {/* Navigation Arrows */}
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity bg-white/90 hover:bg-white"
+                  onClick={prevSlide}
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity bg-white/90 hover:bg-white"
+                  onClick={nextSlide}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </Button>
+
+                {/* Indicators */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                  {heroImages.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentHeroIndex(index)}
+                      className={`h-2 rounded-full transition-all ${
+                        index === currentHeroIndex 
+                          ? 'w-8 bg-white' 
+                          : 'w-2 bg-white/50 hover:bg-white/75'
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="absolute -bottom-6 -left-6 bg-card p-6 rounded-xl shadow-elegant">
+
+              {/* Stats Card */}
+              <div className="absolute -bottom-6 -left-6 bg-card p-6 rounded-xl shadow-elegant animate-fade-in">
                 <div className="flex items-center gap-4">
                   <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center">
                     <CheckCircle className="h-6 w-6 text-secondary-foreground" />
