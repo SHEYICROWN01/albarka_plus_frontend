@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Users, Target, Award, Heart } from "lucide-react";
+import MainLayout from "@/layouts/MainLayout";
 
 const About = () => {
   return (
-    <div className="min-h-screen">
+    <MainLayout>
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-primary py-20">
         <div className="container">
@@ -124,7 +126,8 @@ const About = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </MainLayout>
   );
 };
 

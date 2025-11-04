@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import MainLayout from "@/layouts/MainLayout";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +29,8 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <MainLayout>
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-primary py-20">
         <div className="container">
@@ -182,7 +184,8 @@ const Contact = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </MainLayout>
   );
 };
 
