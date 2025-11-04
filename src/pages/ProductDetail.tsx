@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, ShoppingCart, Heart, Share2, Check, Calendar, TrendingDown, Star, Plus, Minus, X, ChevronRight } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Heart, Share2, Check, Calendar, TrendingDown, Star, ChevronRight, Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,11 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductImageGallery from "@/components/ProductImageGallery";
 import ProductCard from "@/components/ProductCard";
+import { useCart } from "@/contexts/CartContext";
+import { CartItem } from "@/components/CartSidebar";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import productPhone from "@/assets/product-phone.jpg";
@@ -22,10 +23,9 @@ import productTv from "@/assets/product-tv.jpg";
 const ProductDetail = () => {
   const [selectedPlan, setSelectedPlan] = useState("30");
   const [paymentType, setPaymentType] = useState<"full" | "plan">("plan");
-  const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<any[]>([]);
   const [quantity, setQuantity] = useState(1);
   const { toast } = useToast();
+  const { addToCart, cartOpen, setCartOpen, cartItems, updateQuantity, removeItem } = useCart();
 
   const product = {
     id: "1",
@@ -98,13 +98,17 @@ const ProductDetail = () => {
   ];
 
   const handleAddToCart = () => {
-    const newItem = {
-      ...product,
-      quantity,
-      selectedPlan: paymentType === "plan" ? selectedPlanDetails : null,
-      paymentType,
+    const newItem: CartItem = {
+      id: product.id,
+      title: product.title,
+      brand: product.brand,
+      price: product.price,
+      dailyPlan: `₦${selectedPlanDetails?.daily.toLocaleString()}/day`,
+      image: product.images[0],
+      quantity: quantity,
     };
-    setCartItems([...cartItems, newItem]);
+
+    addToCart(newItem);
     setCartOpen(true);
     toast({
       title: "Added to Cart! 🎉",
@@ -462,90 +466,7 @@ const ProductDetail = () => {
         </div>
       </main>
 
-      {/* Cart Sidebar */}
-      <Sheet open={cartOpen} onOpenChange={setCartOpen}>
-        <SheetContent className="w-full sm:max-w-lg">
-          <SheetHeader>
-            <SheetTitle className="text-2xl font-heading">Shopping Cart 🛒</SheetTitle>
-          </SheetHeader>
-          
-          <div className="mt-8 space-y-6">
-            {cartItems.length === 0 ? (
-              <div className="text-center py-12">
-                <ShoppingCart className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                <p className="text-muted-foreground">Your cart is empty</p>
-              </div>
-            ) : (
-              <>
-                <div className="space-y-4">
-                  {cartItems.map((item, index) => (
-                    <Card key={index} className="overflow-hidden">
-                      <CardContent className="p-4">
-                        <div className="flex gap-4">
-                          <img 
-                            src={item.images[0]} 
-                            alt={item.title}
-                            className="w-20 h-20 object-cover rounded-lg"
-                          />
-                          <div className="flex-1 space-y-1">
-                            <h4 className="font-semibold line-clamp-1">{item.title}</h4>
-                            <p className="text-sm text-muted-foreground">{item.brand}</p>
-                            <div className="flex items-center justify-between">
-                              <span className="font-bold text-primary">
-                                {item.paymentType === "plan" 
-                                  ? `₦${item.selectedPlan.daily.toLocaleString()}/day`
-                                  : `₦${item.price.toLocaleString()}`}
-                              </span>
-                              <div className="flex items-center gap-2">
-                                <Button variant="ghost" size="icon" className="h-6 w-6">
-                                  <Minus className="h-3 w-3" />
-                                </Button>
-                                <span className="text-sm font-medium">{item.quantity}</span>
-                                <Button variant="ghost" size="icon" className="h-6 w-6">
-                                  <Plus className="h-3 w-3" />
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-
-                <Separator />
-
-                <div className="space-y-3">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Subtotal:</span>
-                    <span className="font-semibold">₦{cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Delivery:</span>
-                    <span className="font-semibold text-green-600">FREE</span>
-                  </div>
-                  <Separator />
-                  <div className="flex justify-between">
-                    <span className="font-semibold text-lg">Total:</span>
-                    <span className="font-bold text-xl text-primary">
-                      ₦{cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString()}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Button className="w-full bg-gradient-primary" size="lg">
-                    Proceed to Checkout
-                  </Button>
-                  <Button variant="outline" className="w-full" onClick={() => setCartOpen(false)}>
-                    Continue Shopping
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
-        </SheetContent>
-      </Sheet>
+      {/* Global Cart Sidebar - Managed by CartContext */}
 
       <Footer />
     </div>
