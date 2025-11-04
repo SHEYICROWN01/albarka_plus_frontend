@@ -1,13 +1,27 @@
-import { Search, ShoppingCart, User, Menu } from "lucide-react";
+import { useState } from "react";
+import { Search, ShoppingCart, User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ThemeToggle from "@/components/ThemeToggle";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const Header = () => {
   const { cartItems, openCart } = useCart();
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const navLinks = [
+    { to: "/", label: "Home" },
+    { to: "/catalog", label: "Products" },
+    { to: "/how-it-works", label: "How It Works" },
+    { to: "/about", label: "About Us" },
+    { to: "/contact", label: "Contact Us" },
+  ];
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60 transition-all duration-300">
@@ -24,16 +38,19 @@ const Header = () => {
             </div>
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/catalog" className="text-sm font-medium transition-colors hover:text-primary">
-              Products
-            </Link>
-            <Link to="/how-it-works" className="text-sm font-medium transition-colors hover:text-primary">
-              How It Works
-            </Link>
-            <Link to="/contact" className="text-sm font-medium transition-colors hover:text-primary">
-              Contact
-            </Link>
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  isActive(link.to) ? "text-primary" : ""
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
         </div>
 
@@ -63,16 +80,45 @@ const Header = () => {
             )}
           </Button>
 
-          <Link to="/login">
+          <Link to="/login" className="hidden sm:inline-block">
             <Button variant="default" className="gap-2">
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">Sign In</span>
             </Button>
           </Link>
 
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <Menu className="h-5 w-5" />
-          </Button>
+          {/* Mobile Menu */}
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="lg:hidden">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+              <nav className="flex flex-col gap-6 mt-8">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`text-lg font-medium transition-colors hover:text-primary ${
+                      isActive(link.to) ? "text-primary" : ""
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <div className="pt-4 border-t">
+                  <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="default" className="w-full gap-2">
+                      <User className="h-4 w-4" />
+                      Sign In
+                    </Button>
+                  </Link>
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>
