@@ -19,141 +19,112 @@ import heroImage4 from "@/assets/hero-image-4.jpg";
 import productPhone from "@/assets/product-phone.jpg";
 import productTv from "@/assets/product-tv.jpg";
 import productLaptop from "@/assets/product-laptop.jpg";
-
 const Home = () => {
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
-
-  const heroImages = [
-    {
-      image: heroImage1,
-      title: "Smart Savings.",
-      subtitle: "Smart Ownership.",
-      description: "Turn your daily savings into ownership. Buy the items you need on credit and repay through your existing savings schedule.",
-    },
-    {
-      image: heroImage2,
-      title: "Own Your Dream Laptop.",
-      subtitle: "Pay Daily.",
-      description: "Get the technology you need for work or school. Make affordable daily payments that fit your budget.",
-    },
-    {
-      image: heroImage3,
-      title: "Shop Smart.",
-      subtitle: "Save Smart.",
-      description: "Access quality products from trusted brands. Build your credit history while you own what you need.",
-    },
-    {
-      image: heroImage4,
-      title: "Family Entertainment.",
-      subtitle: "Affordable Plans.",
-      description: "Bring joy to your home with the latest electronics. Flexible payment options for every family.",
-    },
-  ];
-
+  const heroImages = [{
+    image: heroImage1,
+    title: "Smart Savings.",
+    subtitle: "Smart Ownership.",
+    description: "Turn your daily savings into ownership. Buy the items you need on credit and repay through your existing savings schedule."
+  }, {
+    image: heroImage2,
+    title: "Own Your Dream Laptop.",
+    subtitle: "Pay Daily.",
+    description: "Get the technology you need for work or school. Make affordable daily payments that fit your budget."
+  }, {
+    image: heroImage3,
+    title: "Shop Smart.",
+    subtitle: "Save Smart.",
+    description: "Access quality products from trusted brands. Build your credit history while you own what you need."
+  }, {
+    image: heroImage4,
+    title: "Family Entertainment.",
+    subtitle: "Affordable Plans.",
+    description: "Bring joy to your home with the latest electronics. Flexible payment options for every family."
+  }];
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+      setCurrentHeroIndex(prev => (prev + 1) % heroImages.length);
     }, 5000); // Change slide every 5 seconds
 
     return () => clearInterval(interval);
   }, [heroImages.length]);
-
   const nextSlide = () => {
-    setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+    setCurrentHeroIndex(prev => (prev + 1) % heroImages.length);
   };
-
   const prevSlide = () => {
-    setCurrentHeroIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+    setCurrentHeroIndex(prev => (prev - 1 + heroImages.length) % heroImages.length);
   };
-  const featuredProducts = [
-    {
-      id: "1",
-      images: [productPhone, productPhone, productPhone],
-      brand: "Samsung",
-      title: "Samsung Galaxy A54 5G - 128GB",
-      price: 285000,
-      installment: "₦9,500/day for 30 days",
-      category: "Phones",
-      hasVideo: true,
-      badges: ["popular", "new"] as Array<"popular" | "new" | "best-value" | "low-stock">,
-    },
-    {
-      id: "2",
-      images: [productTv, productTv],
-      brand: "LG",
-      title: "LG 55\" 4K Smart TV",
-      price: 450000,
-      installment: "₦15,000/day for 30 days",
-      category: "Electronics",
-      hasVideo: false,
-      badges: ["best-value"] as Array<"popular" | "new" | "best-value" | "low-stock">,
-    },
-    {
-      id: "3",
-      images: [productLaptop, productLaptop, productLaptop],
-      brand: "HP",
-      title: "HP Pavilion 15 Laptop - Intel Core i5",
-      price: 520000,
-      installment: "₦17,333/day for 30 days",
-      category: "Computers",
-      hasVideo: true,
-      badges: ["popular"] as Array<"popular" | "new" | "best-value" | "low-stock">,
-    },
-  ];
-
-  const steps = [
-    {
-      icon: ShoppingBag,
-      title: "Browse & Request",
-      description: "Choose your desired item from our catalog and submit a credit request",
-    },
-    {
-      icon: PiggyBank,
-      title: "Save Daily",
-      description: "Continue your daily savings routine while we process your request",
-    },
-    {
-      icon: HomeIcon,
-      title: "Own It",
-      description: "Receive your item and complete payments through your savings schedule",
-    },
-  ];
-
-  const benefits = [
-    {
-      icon: CheckCircle,
-      title: "No Interest Charges",
-      description: "Pay only the product price with zero hidden fees",
-    },
-    {
-      icon: TrendingUp,
-      title: "Build Credit History",
-      description: "Establish your financial credibility with every purchase",
-    },
-    {
-      icon: Users,
-      title: "Community Support",
-      description: "Join thousands of savers achieving their ownership goals",
-    },
-  ];
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  const featuredProducts = [{
+    id: "1",
+    images: [productPhone, productPhone, productPhone],
+    brand: "Samsung",
+    title: "Samsung Galaxy A54 5G - 128GB",
+    price: 285000,
+    installment: "₦9,500/day for 30 days",
+    category: "Phones",
+    hasVideo: true,
+    badges: ["popular", "new"] as Array<"popular" | "new" | "best-value" | "low-stock">
+  }, {
+    id: "2",
+    images: [productTv, productTv],
+    brand: "LG",
+    title: "LG 55\" 4K Smart TV",
+    price: 450000,
+    installment: "₦15,000/day for 30 days",
+    category: "Electronics",
+    hasVideo: false,
+    badges: ["best-value"] as Array<"popular" | "new" | "best-value" | "low-stock">
+  }, {
+    id: "3",
+    images: [productLaptop, productLaptop, productLaptop],
+    brand: "HP",
+    title: "HP Pavilion 15 Laptop - Intel Core i5",
+    price: 520000,
+    installment: "₦17,333/day for 30 days",
+    category: "Computers",
+    hasVideo: true,
+    badges: ["popular"] as Array<"popular" | "new" | "best-value" | "low-stock">
+  }];
+  const steps = [{
+    icon: ShoppingBag,
+    title: "Browse & Request",
+    description: "Choose your desired item from our catalog and submit a credit request"
+  }, {
+    icon: PiggyBank,
+    title: "Save Daily",
+    description: "Continue your daily savings routine while we process your request"
+  }, {
+    icon: HomeIcon,
+    title: "Own It",
+    description: "Receive your item and complete payments through your savings schedule"
+  }];
+  const benefits = [{
+    icon: CheckCircle,
+    title: "No Interest Charges",
+    description: "Pay only the product price with zero hidden fees"
+  }, {
+    icon: TrendingUp,
+    title: "Build Credit History",
+    description: "Establish your financial credibility with every purchase"
+  }, {
+    icon: Users,
+    title: "Community Support",
+    description: "Join thousands of savers achieving their ownership goals"
+  }];
+  return <div className="min-h-screen flex flex-col">
       <Header />
 
       {/* Hero Section with Carousel */}
       <section className="relative bg-gradient-hero text-primary-foreground py-20 lg:py-32 overflow-hidden">
         {/* Animated Background */}
-        <div 
-          className="absolute inset-0 transition-all duration-1000 ease-in-out"
-          style={{
-            backgroundImage: `url(${heroImages[currentHeroIndex].image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            opacity: 0.15,
-          }}
-        />
+        <div className="absolute inset-0 transition-all duration-1000 ease-in-out" style={{
+        backgroundImage: `url(${heroImages[currentHeroIndex].image})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        opacity: 0.15
+      }} />
         
         <div className="container relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -188,51 +159,20 @@ const Home = () => {
               {/* Main Image with Transition */}
               <div className="relative rounded-2xl overflow-hidden shadow-glow">
                 <div className="relative h-[500px]">
-                  {heroImages.map((hero, index) => (
-                    <img
-                      key={index}
-                      src={hero.image}
-                      alt={`${hero.title} ${hero.subtitle}`}
-                      className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out ${
-                        index === currentHeroIndex 
-                          ? 'opacity-100 scale-100' 
-                          : 'opacity-0 scale-105'
-                      }`}
-                    />
-                  ))}
+                  {heroImages.map((hero, index) => <img key={index} src={hero.image} alt={`${hero.title} ${hero.subtitle}`} className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out ${index === currentHeroIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`} />)}
                 </div>
 
                 {/* Navigation Arrows */}
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity bg-white/90 hover:bg-white"
-                  onClick={prevSlide}
-                >
+                <Button variant="secondary" size="icon" className="absolute left-4 top-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity bg-white/90 hover:bg-white" onClick={prevSlide}>
                   <ChevronLeft className="h-5 w-5" />
                 </Button>
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity bg-white/90 hover:bg-white"
-                  onClick={nextSlide}
-                >
+                <Button variant="secondary" size="icon" className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity bg-white/90 hover:bg-white" onClick={nextSlide}>
                   <ChevronRight className="h-5 w-5" />
                 </Button>
 
                 {/* Indicators */}
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                  {heroImages.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentHeroIndex(index)}
-                      className={`h-2 rounded-full transition-all ${
-                        index === currentHeroIndex 
-                          ? 'w-8 bg-white' 
-                          : 'w-2 bg-white/50 hover:bg-white/75'
-                      }`}
-                    />
-                  ))}
+                  {heroImages.map((_, index) => <button key={index} onClick={() => setCurrentHeroIndex(index)} className={`h-2 rounded-full transition-all ${index === currentHeroIndex ? 'w-8 bg-white' : 'w-2 bg-white/50 hover:bg-white/75'}`} />)}
                 </div>
               </div>
 
@@ -257,7 +197,7 @@ const Home = () => {
       <CategoryCarousel />
 
       {/* Brands Section */}
-      <BrandCarousel />
+      
 
       {/* Flash Sales / Top Deals */}
       <section className="py-16 bg-gradient-soft">
@@ -278,9 +218,7 @@ const Home = () => {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} {...product} />
-            ))}
+            {featuredProducts.map(product => <ProductCard key={product.id} {...product} />)}
           </div>
         </div>
       </section>
@@ -307,9 +245,7 @@ const Home = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} {...product} />
-            ))}
+            {featuredProducts.map(product => <ProductCard key={product.id} {...product} />)}
           </div>
         </div>
       </section>
@@ -328,15 +264,13 @@ const Home = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="text-center">
+            {benefits.map((benefit, index) => <div key={index} className="text-center">
                 <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center mx-auto mb-4">
                   <benefit.icon className="h-8 w-8 text-primary-foreground" />
                 </div>
                 <h3 className="text-xl font-heading font-semibold mb-2">{benefit.title}</h3>
                 <p className="text-muted-foreground">{benefit.description}</p>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -366,8 +300,6 @@ const Home = () => {
 
       <Footer />
       <FloatingChat />
-    </div>
-  );
+    </div>;
 };
-
 export default Home;
