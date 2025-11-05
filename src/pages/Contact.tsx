@@ -90,7 +90,7 @@ const Contact = () => {
                   <div>
                     <h3 className="font-heading font-semibold text-foreground mb-1">Address</h3>
                     <p className="text-muted-foreground">Omida, Shopping Complex,</p>
-                    <p className="text-muted-foreground">Lekki Phase 1, Lagos, Nigeria</p>
+                    <p className="text-muted-foreground">Abeokuta, Ogun State.</p>
                   </div>
                 </div>
 
