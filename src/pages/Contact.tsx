@@ -6,7 +6,6 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import MainLayout from "@/layouts/MainLayout";
-
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -14,22 +13,23 @@ const Contact = () => {
     phone: "",
     message: ""
   });
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast.success("Thank you! We'll get back to you soon.");
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      message: ""
+    });
   };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
     }));
   };
-
-  return (
-    <MainLayout>
+  return <MainLayout>
       <div className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-primary py-20">
@@ -89,7 +89,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-foreground mb-1">Address</h3>
-                    <p className="text-muted-foreground">123 Admiralty Way,</p>
+                    <p className="text-muted-foreground">Omida, Shopping Complex,</p>
                     <p className="text-muted-foreground">Lekki Phase 1, Lagos, Nigeria</p>
                   </div>
                 </div>
@@ -116,55 +116,22 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <Label htmlFor="name">Full Name</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="John Doe"
-                    required
-                    className="mt-2"
-                  />
+                  <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required className="mt-2" />
                 </div>
 
                 <div>
                   <Label htmlFor="email">Email Address</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="john@example.com"
-                    required
-                    className="mt-2"
-                  />
+                  <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required className="mt-2" />
                 </div>
 
                 <div>
                   <Label htmlFor="phone">Phone Number</Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="+234 701 234 5678"
-                    className="mt-2"
-                  />
+                  <Input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="+234 701 234 5678" className="mt-2" />
                 </div>
 
                 <div>
                   <Label htmlFor="message">Message</Label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="How can we help you?"
-                    required
-                    className="mt-2 min-h-[150px]"
-                  />
+                  <Textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="How can we help you?" required className="mt-2 min-h-[150px]" />
                 </div>
 
                 <Button type="submit" size="lg" className="w-full">
@@ -185,8 +152,6 @@ const Contact = () => {
         </div>
       </section>
       </div>
-    </MainLayout>
-  );
+    </MainLayout>;
 };
-
 export default Contact;
