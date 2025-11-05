@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaYoutube, FaTiktok, FaGlobe, FaGooglePlay, FaApple } from "react-icons/fa";
-
 const Footer = () => {
-  return (
-    <footer className="bg-[#0B1E44] text-white">
+  return <footer className="bg-[#0B1E44] text-white">
       <div className="container py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Logo & Info Column */}
@@ -24,7 +22,7 @@ const Footer = () => {
             </p>
 
             <div className="space-y-3 text-sm">
-              <p className="text-white/90">6, Ike Asogwa Close, Anthony, Lagos.</p>
+              <p className="text-white/90">O</p>
               <a href="mailto:hello@albarkaplus.com" className="text-white/90 hover:text-[#FF8C42] transition-colors block underline">
                 hello@albarkaplus.com
               </a>
@@ -175,8 +173,6 @@ const Footer = () => {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
