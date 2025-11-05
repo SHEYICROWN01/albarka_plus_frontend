@@ -22,7 +22,7 @@ const Footer = () => {
             </p>
 
             <div className="space-y-3 text-sm">
-              <p className="text-white/90">O</p>
+              <p className="text-white/90">Omida Shopping Complex, Abeokuta, Ogun state.</p>
               <a href="mailto:hello@albarkaplus.com" className="text-white/90 hover:text-[#FF8C42] transition-colors block underline">
                 hello@albarkaplus.com
               </a>
