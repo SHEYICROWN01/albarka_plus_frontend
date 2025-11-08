@@ -1,9 +1,10 @@
-import { Users, ShoppingBag, TrendingUp, AlertCircle, CheckCircle, Clock } from "lucide-react";
+import { ShoppingBag, TrendingUp, AlertCircle, CheckCircle, Clock, DollarSign, Users, Package } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import Header from "@/components/Header";
+import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import AdminLayout from "@/layouts/AdminLayout";
 
 const AdminDashboard = () => {
   const stats = [
@@ -16,26 +17,83 @@ const AdminDashboard = () => {
     },
     {
       icon: TrendingUp,
-      label: "Today's Collections",
-      value: "₦8.5M",
-      change: "From 156 payments",
+      label: "Gross Profit",
+      value: "₦4.2M",
+      change: "+8.1% this month",
+      positive: true,
+    },
+    {
+      icon: Package,
+      label: "Outstanding",
+      value: "₦2.8M",
+      change: "-1.3% decrease",
+      positive: true,
+    },
+    {
+      icon: Users,
+      label: "Active Customers",
+      value: "2,847",
+      change: "+12% this month",
+      positive: true,
+    },
+    {
+      icon: AlertCircle,
+      label: "Delinquent Accounts",
+      value: "42",
+      change: "2.1% of total",
+      positive: false,
+    },
+    {
+      icon: ShoppingBag,
+      label: "Avg Order Value",
+      value: "₦385K",
+      change: "+3.5% increase",
+      positive: true,
+    },
+    {
+      icon: DollarSign,
+      label: "Collections Today",
+      value: "₦856K",
+      change: "From 23 payments",
       positive: true,
     },
     {
       icon: Clock,
-      label: "Pending Approvals",
-      value: "28",
-      change: "Requires attention",
-      positive: false,
-    },
-    {
-      icon: AlertCircle,
-      label: "Past Due",
-      value: "12",
-      change: "Follow-up needed",
-      positive: false,
+      label: "Total Orders",
+      value: "2,350",
+      change: "+15% this month",
+      positive: true,
     },
   ];
+
+  // Revenue Over Time Data
+  const revenueData = [
+    { date: 'Oct 1', revenue: 450000 },
+    { date: 'Oct 5', revenue: 520000 },
+    { date: 'Oct 10', revenue: 680000 },
+    { date: 'Oct 15', revenue: 620000 },
+    { date: 'Oct 20', revenue: 750000 },
+    { date: 'Oct 25', revenue: 890000 },
+    { date: 'Oct 30', revenue: 920000 },
+  ];
+
+  // Orders by Category Data
+  const categoryData = [
+    { name: 'Electronics', value: 450 },
+    { name: 'Appliances', value: 320 },
+    { name: 'Furniture', value: 180 },
+    { name: 'Fashion', value: 240 },
+  ];
+
+  // Payment Method Mix
+  const paymentMixData = [
+    { name: 'Cash', value: 60 },
+    { name: 'Bank Transfer', value: 25 },
+    { name: 'Card', value: 10 },
+    { name: 'Agent Collection', value: 5 },
+  ];
+
+  const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))', '#FF8C42'];
 
   const recentRequests = [
     {
@@ -90,44 +148,109 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <AdminLayout>
+      <div className="p-6 space-y-6">
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-3xl font-heading font-bold mb-2">Dashboard Overview</h1>
+          <p className="text-muted-foreground">Monitor your business performance at a glance</p>
+        </div>
 
-      <main className="flex-1 py-8 bg-gradient-soft">
-        <div className="container">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-heading font-bold mb-2">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Manage credit requests and monitor system performance</p>
-          </div>
-
-          {/* Stats Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {stats.map((stat, index) => (
-              <Card key={index} className="hover:shadow-card transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`h-12 w-12 rounded-full flex items-center justify-center ${
-                      stat.positive ? "bg-secondary/10" : "bg-destructive/10"
-                    }`}>
-                      <stat.icon className={`h-6 w-6 ${
-                        stat.positive ? "text-secondary" : "text-destructive"
-                      }`} />
-                    </div>
+        {/* KPI Stats Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          {stats.map((stat, index) => (
+            <Card key={index}>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-3">
+                  <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${
+                    stat.positive ? "bg-primary/10" : "bg-destructive/10"
+                  }`}>
+                    <stat.icon className={`h-5 w-5 ${
+                      stat.positive ? "text-primary" : "text-destructive"
+                    }`} />
                   </div>
-                  <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
-                  <p className="text-2xl font-bold text-card-foreground mb-1">{stat.value}</p>
-                  <p className="text-xs text-muted-foreground">{stat.change}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
+                <p className="text-2xl font-bold mb-1">{stat.value}</p>
+                <p className={`text-xs ${stat.positive ? "text-primary" : "text-muted-foreground"}`}>{stat.change}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Charts Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* Revenue Over Time */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Revenue Over Time</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={revenueData}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis dataKey="date" className="text-xs" />
+                  <YAxis className="text-xs" />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Orders by Category */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Orders by Category</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={categoryData}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis dataKey="name" className="text-xs" />
+                  <YAxis className="text-xs" />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="hsl(var(--primary))" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Payment Mix & Recent Requests */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          {/* Payment Method Mix */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Payment Method Mix</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={paymentMixData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {paymentMixData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
 
           {/* Recent Requests Table */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
+          <Card className="lg:col-span-2">
+            <CardHeader>
               <CardTitle>Recent Credit Requests</CardTitle>
-              <Button variant="outline" size="sm">View All</Button>
             </CardHeader>
             <CardContent>
               <Table>
@@ -176,9 +299,10 @@ const AdminDashboard = () => {
               </Table>
             </CardContent>
           </Card>
+        </div>
 
-          {/* Quick Stats */}
-          <div className="grid md:grid-cols-3 gap-6 mt-8">
+        {/* Bottom Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Collection Rate</CardTitle>
@@ -208,10 +332,9 @@ const AdminDashboard = () => {
                 <p className="text-sm text-muted-foreground">Per customer this quarter</p>
               </CardContent>
             </Card>
-          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </AdminLayout>
   );
 };
 
