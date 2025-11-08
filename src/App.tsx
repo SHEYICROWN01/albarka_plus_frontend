@@ -13,6 +13,17 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminProducts from "./pages/AdminProducts";
 import AdminOrders from "./pages/AdminOrders";
 import AdminCustomers from "./pages/AdminCustomers";
+import AdminCategories from "./pages/AdminCategories";
+import AdminBrands from "./pages/AdminBrands";
+import AdminSavings from "./pages/AdminSavings";
+import AdminCreditRequests from "./pages/AdminCreditRequests";
+import AdminPayments from "./pages/AdminPayments";
+import AdminAgents from "./pages/AdminAgents";
+import AdminBranches from "./pages/AdminBranches";
+import AdminReports from "./pages/AdminReports";
+import AdminInventory from "./pages/AdminInventory";
+import AdminPromotions from "./pages/AdminPromotions";
+import AdminSettings from "./pages/AdminSettings";
 import Login from "./pages/Login";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -38,6 +49,17 @@ const App = () => (
           <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
           <Route path="/admin/customers" element={<AdminCustomers />} />
+          <Route path="/admin/categories" element={<AdminCategories />} />
+          <Route path="/admin/brands" element={<AdminBrands />} />
+          <Route path="/admin/savings" element={<AdminSavings />} />
+          <Route path="/admin/credit-requests" element={<AdminCreditRequests />} />
+          <Route path="/admin/payments" element={<AdminPayments />} />
+          <Route path="/admin/agents" element={<AdminAgents />} />
+          <Route path="/admin/branches" element={<AdminBranches />} />
+          <Route path="/admin/reports" element={<AdminReports />} />
+          <Route path="/admin/inventory" element={<AdminInventory />} />
+          <Route path="/admin/promotions" element={<AdminPromotions />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
               <Route path="/login" element={<Login />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
