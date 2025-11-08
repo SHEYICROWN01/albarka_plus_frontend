@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { FolderTree, Plus, Edit, Trash2, GripVertical } from "lucide-react";
 import AdminLayout from "@/layouts/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { AddCategoryDialog } from "@/components/admin/AddCategoryDialog";
 
 const AdminCategories = () => {
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  
   const categories = [
     { id: 1, name: "Electronics", parent: null, products: 456, status: "active" },
     { id: 2, name: "Phones & Tablets", parent: "Electronics", products: 234, status: "active" },
@@ -26,7 +30,7 @@ const AdminCategories = () => {
             <h1 className="text-3xl font-heading font-bold mb-2">Categories</h1>
             <p className="text-muted-foreground">Organize your product catalog</p>
           </div>
-          <Button>
+          <Button onClick={() => setShowAddDialog(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Add Category
           </Button>
@@ -136,6 +140,8 @@ const AdminCategories = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <AddCategoryDialog open={showAddDialog} onOpenChange={setShowAddDialog} />
     </AdminLayout>
   );
 };

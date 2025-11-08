@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { Percent, Plus, Calendar, Tag } from "lucide-react";
 import AdminLayout from "@/layouts/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { CreatePromotionDialog } from "@/components/admin/CreatePromotionDialog";
 
 const AdminPromotions = () => {
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  
   const promotions = [
     { id: 1, name: "Black Friday Sale", type: "Percentage Discount", discount: "20%", products: 234, startDate: "2024-11-24", endDate: "2024-11-30", status: "scheduled" },
     { id: 2, name: "New Customer Offer", type: "Fixed Amount", discount: "₦50,000", products: "All", startDate: "2024-11-01", endDate: "2024-12-31", status: "active" },
@@ -38,7 +42,7 @@ const AdminPromotions = () => {
             <h1 className="text-3xl font-heading font-bold mb-2">Promotions & Deals</h1>
             <p className="text-muted-foreground">Manage promotional campaigns and special offers</p>
           </div>
-          <Button>
+          <Button onClick={() => setShowCreateDialog(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Create Promotion
           </Button>
@@ -139,6 +143,8 @@ const AdminPromotions = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <CreatePromotionDialog open={showCreateDialog} onOpenChange={setShowCreateDialog} />
     </AdminLayout>
   );
 };

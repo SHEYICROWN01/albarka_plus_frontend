@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { Building2, MapPin, Users, TrendingUp, Plus } from "lucide-react";
 import AdminLayout from "@/layouts/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { AddBranchDialog } from "@/components/admin/AddBranchDialog";
 
 const AdminBranches = () => {
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  
   const branches = [
     { id: 1, name: "Abeokuta Main", address: "Omida Shopping Complex, Abeokuta", manager: "Manager Adebayo", agents: 12, customers: 456, revenue: 12500000, status: "active" },
     { id: 2, name: "Ibadan Branch", address: "Ring Road, Ibadan", manager: "Manager Chinwe", agents: 9, customers: 342, revenue: 9800000, status: "active" },
@@ -23,7 +27,7 @@ const AdminBranches = () => {
             <h1 className="text-3xl font-heading font-bold mb-2">Branches</h1>
             <p className="text-muted-foreground">Manage branch locations and performance</p>
           </div>
-          <Button>
+          <Button onClick={() => setShowAddDialog(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Add Branch
           </Button>
@@ -126,6 +130,8 @@ const AdminBranches = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <AddBranchDialog open={showAddDialog} onOpenChange={setShowAddDialog} />
     </AdminLayout>
   );
 };

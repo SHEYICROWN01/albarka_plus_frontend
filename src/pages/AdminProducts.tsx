@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { AddProductDialog } from "@/components/admin/AddProductDialog";
 
 const AdminProducts = () => {
   const [viewMode, setViewMode] = useState<"table" | "grid">("table");
+  const [showAddDialog, setShowAddDialog] = useState(false);
 
   const products = [
     { id: 1, sku: "SAM-A54-BLK", name: "Samsung Galaxy A54", brand: "Samsung", category: "Phones", price: 285000, stock: 45, status: "active" },
@@ -41,7 +43,7 @@ const AdminProducts = () => {
             <h1 className="text-3xl font-heading font-bold mb-2">Products</h1>
             <p className="text-muted-foreground">Manage your product catalog</p>
           </div>
-          <Button>
+          <Button onClick={() => setShowAddDialog(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Add Product
           </Button>
@@ -182,6 +184,8 @@ const AdminProducts = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <AddProductDialog open={showAddDialog} onOpenChange={setShowAddDialog} />
     </AdminLayout>
   );
 };

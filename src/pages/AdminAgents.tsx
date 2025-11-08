@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { UserCircle, TrendingUp, DollarSign, ShoppingBag, Plus } from "lucide-react";
 import AdminLayout from "@/layouts/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,8 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { AddAgentDialog } from "@/components/admin/AddAgentDialog";
 
 const AdminAgents = () => {
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  
   const agents = [
     { id: 1, name: "Agent Tunde", branch: "Abeokuta Main", collections: 2450000, approvals: 45, customers: 156, performance: 95, status: "active" },
     { id: 2, name: "Agent Bola", branch: "Ibadan Branch", collections: 1850000, approvals: 38, customers: 124, performance: 88, status: "active" },
@@ -35,7 +39,7 @@ const AdminAgents = () => {
             <h1 className="text-3xl font-heading font-bold mb-2">Agents</h1>
             <p className="text-muted-foreground">Manage field agents and their performance</p>
           </div>
-          <Button>
+          <Button onClick={() => setShowAddDialog(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Add Agent
           </Button>
@@ -152,6 +156,8 @@ const AdminAgents = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <AddAgentDialog open={showAddDialog} onOpenChange={setShowAddDialog} />
     </AdminLayout>
   );
 };

@@ -1,11 +1,15 @@
-import { DollarSign, CreditCard, Banknote, Users, TrendingUp } from "lucide-react";
+import { useState } from "react";
+import { DollarSign, CreditCard, Banknote, Users, TrendingUp, Plus } from "lucide-react";
 import AdminLayout from "@/layouts/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { RecordPaymentDialog } from "@/components/admin/RecordPaymentDialog";
 
 const AdminPayments = () => {
+  const [showRecordDialog, setShowRecordDialog] = useState(false);
+  
   const payments = [
     { id: "PAY-5601", customer: "Adebayo Johnson", order: "ORD-2401", amount: 95000, method: "Cash", agent: "Agent Tunde", status: "completed", date: "2024-11-02 14:30" },
     { id: "PAY-5602", customer: "Chinwe Okafor", order: "ORD-2402", amount: 173000, method: "Bank Transfer", agent: "N/A", status: "completed", date: "2024-11-02 13:15" },
@@ -50,7 +54,10 @@ const AdminPayments = () => {
             <h1 className="text-3xl font-heading font-bold mb-2">Payments & Collections</h1>
             <p className="text-muted-foreground">Track all payment transactions and collections</p>
           </div>
-          <Button>Record Manual Payment</Button>
+          <Button onClick={() => setShowRecordDialog(true)}>
+            <Plus className="h-4 w-4 mr-2" />
+            Record Payment
+          </Button>
         </div>
 
         {/* Stats */}
@@ -168,6 +175,8 @@ const AdminPayments = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <RecordPaymentDialog open={showRecordDialog} onOpenChange={setShowRecordDialog} />
     </AdminLayout>
   );
 };

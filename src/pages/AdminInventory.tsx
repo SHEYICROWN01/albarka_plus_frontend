@@ -1,11 +1,15 @@
-import { Archive, AlertCircle, TrendingDown, Package } from "lucide-react";
+import { useState } from "react";
+import { Archive, AlertCircle, TrendingDown, Package, Upload } from "lucide-react";
 import AdminLayout from "@/layouts/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ImportStockDialog } from "@/components/admin/ImportStockDialog";
 
 const AdminInventory = () => {
+  const [showImportDialog, setShowImportDialog] = useState(false);
+  
   const inventory = [
     { id: 1, product: "Samsung Galaxy A54", sku: "SAM-A54-BLK", stock: 45, reorderLevel: 20, branch: "All Branches", status: "in_stock" },
     { id: 2, product: "HP Pavilion Laptop 15", sku: "HP-PAV-15", stock: 23, reorderLevel: 15, branch: "Lagos Central", status: "in_stock" },
@@ -39,7 +43,10 @@ const AdminInventory = () => {
             <h1 className="text-3xl font-heading font-bold mb-2">Inventory Management</h1>
             <p className="text-muted-foreground">Track stock levels across all branches</p>
           </div>
-          <Button>Import Stock Update</Button>
+          <Button onClick={() => setShowImportDialog(true)}>
+            <Upload className="h-4 w-4 mr-2" />
+            Import Stock Update
+          </Button>
         </div>
 
         {/* Stats */}
@@ -139,6 +146,8 @@ const AdminInventory = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <ImportStockDialog open={showImportDialog} onOpenChange={setShowImportDialog} />
     </AdminLayout>
   );
 };

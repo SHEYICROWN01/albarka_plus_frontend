@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Award, Plus, Edit, Trash2, Eye } from "lucide-react";
 import AdminLayout from "@/layouts/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,8 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { AddBrandDialog } from "@/components/admin/AddBrandDialog";
 
 const AdminBrands = () => {
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  
   const brands = [
     { id: 1, name: "Samsung", products: 234, sales: 12500000, status: "active" },
     { id: 2, name: "Apple", products: 89, sales: 28500000, status: "active" },
@@ -31,7 +35,7 @@ const AdminBrands = () => {
             <h1 className="text-3xl font-heading font-bold mb-2">Brands</h1>
             <p className="text-muted-foreground">Manage product brands and manufacturers</p>
           </div>
-          <Button>
+          <Button onClick={() => setShowAddDialog(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Add Brand
           </Button>
@@ -149,6 +153,8 @@ const AdminBrands = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <AddBrandDialog open={showAddDialog} onOpenChange={setShowAddDialog} />
     </AdminLayout>
   );
 };
